@@ -69,8 +69,8 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
 
+        if (GameManager.Instance.IsPaused) return;
 
         if(Mathf.Approximately(targetSpeed - currentSpeed, 0) && currentState != PlayerState.Idle)
         {
