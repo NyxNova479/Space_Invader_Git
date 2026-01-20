@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b045078eca859941aaa20373b211cb1, type: 3}
+  m_Name: EnemyCfg
+  m_EditorClassIdentifier: 
+  enemyTypes:
+  - name: Type A
+    points: 10
+    color: {r: 0.5943396, g: 0, b: 0, a: 0}
+    prefab: {fileID: 837108915004039385, guid: 814cfe526c443fb41b7ff4299b334ed7, type: 3}
+  - name: Type B
+    points: 20
+    color: {r: 0.03416048, g: 0.5754717, b: 0.008143453, a: 0}
+    prefab: {fileID: 4920645956479422970, guid: d497a29cd67a76144a077bf70d6ca408, type: 3}
+  - name: Type C
+    points: 30
+    color: {r: 0.11095864, g: 0, b: 0.6698113, a: 0}
+    prefab: {fileID: 267051165368221480, guid: 5a6a61a405baa234bb0eb87accbe1047, type: 3}
