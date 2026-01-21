@@ -55,7 +55,7 @@ public class EnemyPool : MonoBehaviour
         return null;
     }
 
-    public void ReturnEnemy(GameObject enemy, GameObject prefab)
+    public void ReturnToPool(GameObject enemy, GameObject prefab)
     {
         enemy.SetActive(false);
 

@@ -10,7 +10,7 @@ public class MisssileManager : MonoBehaviour
     [SerializeField]
     private Transform firePoint; // Position d'où le missile spawn
 
-    public int poolSize = 10;
+    public int poolSize = 1;
     private GameObject[] missilePool;
     private int currentMissileIndex = 0; // Permet de commencer la recherche à cet index
 

@@ -26,7 +26,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void ChangeSprite()
+    public void ChangeSprite()
     {
         isSprite01 = !isSprite01;
 
