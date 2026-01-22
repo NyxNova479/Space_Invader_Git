@@ -116,7 +116,7 @@ public class PlayerScript : MonoBehaviour
         rb.MovePosition(new Vector2(newXPosition, rb.position.y));
 
         Debug.Log($"State : {currentState}, Current Speed : {currentSpeed}, Target Speed : {targetSpeed}, Move Input :! {moveInput}, Decel Time : {decelTime}, Accel Time : {accelTime}");
-
+       
     }
 
     private void HandheldMovePressed(InputAction.CallbackContext ctx)

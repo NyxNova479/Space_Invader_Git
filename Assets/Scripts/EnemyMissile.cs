@@ -19,7 +19,7 @@ public class EnemyMissile : MonoBehaviour
 
     }
 
-    private void ResetMissile()
+    public void ResetMissile()
     {
         // gameObject.SetActive(false);
         Destroy(gameObject);

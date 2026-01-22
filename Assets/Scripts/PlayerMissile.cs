@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMissile : MonoBehaviour
 {
 
-    public float speed = 15f;
+    public float speed = 10f;
     public float maxHeight = 10f;
 
 
@@ -22,7 +22,7 @@ public class PlayerMissile : MonoBehaviour
 
     }
 
-    private void ResetMissile()
+    public void ResetMissile()
     {
         gameObject.SetActive(false);
     }
@@ -40,6 +40,5 @@ public class PlayerMissile : MonoBehaviour
             ResetMissile();
         }
 
-        
     }
 }

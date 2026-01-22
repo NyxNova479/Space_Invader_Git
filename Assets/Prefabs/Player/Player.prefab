@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 222616730373378283}
   - component: {fileID: 8145069413802683114}
   - component: {fileID: 908770829402464945}
-  - component: {fileID: 1844985521718821459}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -279,18 +278,3 @@ MonoBehaviour:
   decelFrameDuration: 40
   boundary: 0
   boundaryPercentage: 0.75
---- !u!114 &1844985521718821459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7301641573146258353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95ba12a4f05820843b401e89945b0d44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  missilePrefab: {fileID: 3437571097651702239, guid: 0cf721b75035da54a8d89541171550be, type: 3}
-  firePoint: {fileID: 1202914082646041521}
-  poolSize: 1

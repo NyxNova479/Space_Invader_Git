@@ -20,6 +20,8 @@ public class EnemyManager : MonoBehaviour
 
 
     private GameObject[,] enemies;
+    private int remainingEnemies = 0;
+
     private bool isPaused = false;
     private bool isExploding = false;
 
@@ -30,6 +32,7 @@ public class EnemyManager : MonoBehaviour
     public Transform missilePoint;
     public float missileInterval = 2.0f; // Intervalle minimum entre les tirs
 
+    private int explosionDuration = 17;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,6 +77,7 @@ public class EnemyManager : MonoBehaviour
                         enemyScript.ScoreData = enemyType.points;
                     }
                     enemies[row, col] = enemy;
+                    remainingEnemies++;
                 }
             }
         }
@@ -85,7 +89,7 @@ public class EnemyManager : MonoBehaviour
         while (true)
         {
             
-            yield return new WaitUntil(() => !GameManager.Instance.IsPaused && !isExploding);
+            
 
             bool boundaryReached = false;
 
@@ -96,6 +100,7 @@ public class EnemyManager : MonoBehaviour
                 
                 for (int col = 0;  col < columns; col++)
                 {
+                    yield return new WaitUntil(() => !GameManager.Instance.IsPaused && !isExploding);
 
                     if (enemies[row, col] != null && enemies[row, col].activeSelf)
                     {
@@ -104,6 +109,8 @@ public class EnemyManager : MonoBehaviour
                         Vector3 direction = currentState == MoveState.MoveRight ? Vector3.right : Vector3.left; ;
 
                         MoveEnemy(enemies[row, col], direction, _stepDistance);
+
+                        if (enemies[row, col] == null) continue;
 
                         // Alterne le sprite de l'ennemi
                         EnemyScript enemyScript = enemies[row, col].GetComponent<EnemyScript>();
@@ -188,6 +195,9 @@ public class EnemyManager : MonoBehaviour
                 }   
             }
         }
+
+        
+
         return bottomEnemies;
     }
 
@@ -228,11 +238,43 @@ public class EnemyManager : MonoBehaviour
 
 
         }
+
+        GameManager.Instance.AddScore(enemy.GetComponent<EnemyScript>().ScoreData);
+
         EnemyPool.ReturnToPool(enemy, prefab);
+
+        remainingEnemies--;
+
+        if(remainingEnemies <= 0)
+        {
+            GameManager.Instance.CompletedLevel();
+        }
+
+        if (!isExploding)
+        {
+            StartCoroutine(ExplosionCoroutine());
+        }
+    }
+
+    IEnumerator ExplosionCoroutine()
+    {
+        isExploding = true;
+        int duration = 17;
+
+        while( duration > 0)
+        {
+            duration--;
+            yield return new WaitForEndOfFrame();
+        }
+
+        isExploding = false;
     }
 
     private void MoveEnemy(GameObject enemy, Vector3 direction, float stepDistance)
     {
+
+        if (enemy == null) return;
+
         Vector3 newPosition = enemy.transform.position + direction * stepDistance;
 
         newPosition.x = Mathf.Round(newPosition.x * 100f) / 100f;
