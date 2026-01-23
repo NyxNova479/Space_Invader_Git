@@ -31,8 +31,10 @@ public class EnemyMissile : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
 
+            GameManager.Instance.LoseLife();
             ResetMissile();
         }
+
 
 
     }

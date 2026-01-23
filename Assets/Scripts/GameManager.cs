@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,12 +19,21 @@ public class GameManager : MonoBehaviour
     public int highScore = 0;
 
     [SerializeField]
-    private int lives = 0;
+    private int _lives = 2;
+
+    [SerializeField]
+    private GameObject playerPrefab;
 
     [SerializeField]
     private TextMeshProUGUI _scoreUI;
     [SerializeField]
     private TextMeshProUGUI _highScore;
+    [SerializeField]
+    private TextMeshProUGUI _livesText;
+    [SerializeField]
+    private ImageEditor _livesImage;
+
+    public EnemyManager enemyManager;
 
     private void Awake()
     {
@@ -41,6 +51,32 @@ public class GameManager : MonoBehaviour
         controls.UI.Pause.performed += ctx => Pause();
 
 
+    }
+
+    private void Start()
+    {
+        highScore = PlayerPrefs.GetInt("Score", score);
+
+        if (highScore.ToString().Length == 0)
+        {
+            _highScore.text = "000" + highScore.ToString();
+            return;
+        }
+
+        if (highScore.ToString().Length <= 2)
+        {
+            _highScore.text = "00" + highScore.ToString();
+            return;
+        }
+
+        if (highScore.ToString().Length == 3)
+        {
+            _highScore.text = "0" + highScore.ToString();
+            return;
+        }
+
+
+        _highScore.text =   highScore.ToString();
     }
 
     private void OnEnable()
@@ -80,7 +116,7 @@ public class GameManager : MonoBehaviour
         }
 
         
-        _scoreUI.text = "0" + score.ToString();
+        _scoreUI.text = score.ToString();
         
     }
     
@@ -92,14 +128,24 @@ public class GameManager : MonoBehaviour
         
     public void LoseLife()
     {
-        lives--;
-        if (lives == 0)
+        _lives--;
+        
+        
+        if (_lives == 0)
         {
             GameOver();
         }
+        else
+        {
+            playerPrefab.transform.position = new Vector2(0,-9.24f);
+            playerPrefab.SetActive(true);
+            _livesText.text = (_lives + 1).ToString();
+            
+        }
+        
     }
 
-    private void GameOver()
+    public void GameOver()
     {
         // TODO : Implémenter le game over
         SaveScore();
@@ -108,6 +154,9 @@ public class GameManager : MonoBehaviour
     public void CompletedLevel()
     {
         // TODO : Implémenter le CompletedLevel
+        enemyManager.SpawnEnemies();
+        enemyManager._stepDistance += 0.25f;
+        _lives = 2;
     }
 
     private void SaveScore()
@@ -119,10 +168,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void GetHighScore()
-    {
-        highScore = PlayerPrefs.GetInt("Score", score);
-    }
+
 }
 
 

@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Missile
   - Shelter
+  - MissileC
   layers:
   - Default
   - TransparentFX

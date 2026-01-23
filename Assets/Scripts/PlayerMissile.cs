@@ -1,4 +1,4 @@
-using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMissile : MonoBehaviour
@@ -34,11 +34,27 @@ public class PlayerMissile : MonoBehaviour
             EnemyManager enemyManager = FindFirstObjectByType<EnemyManager>();
             if (enemyManager != null)
             {
-                enemyManager.ReturnEnemy(collision.gameObject, collision.gameObject);
+                GameObject go = collision.GetComponent<EnemyScript>().EnemyType.prefab;
+                enemyManager.ReturnEnemy(collision.gameObject, go);
+                
+
             }
 
             ResetMissile();
         }
+        if (collision.CompareTag("Missile"))
+        {
+            
+            collision.gameObject.GetComponent<EnemyMissile>().ResetMissile();
+            ResetMissile();
+        }
+        if (collision.CompareTag("MissileC"))
+        {
+            int randomCollision = Random.Range(0, 1);
+            collision.gameObject.GetComponent<EnemyMissile>().ResetMissile();
+            ResetMissile();
+        }
+
 
     }
 }

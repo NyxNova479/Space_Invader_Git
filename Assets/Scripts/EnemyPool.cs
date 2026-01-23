@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyPool : MonoBehaviour
@@ -34,6 +35,7 @@ public class EnemyPool : MonoBehaviour
             for (int j = 0; j < poolSize; j++) 
             {
                 GameObject enemy = Instantiate(enemyType.prefab);
+                enemy.transform.name = enemyType.prefab.name;
                 enemy.SetActive(false);
                 enemyQueue.Enqueue(enemy);
             }
@@ -57,15 +59,16 @@ public class EnemyPool : MonoBehaviour
 
     public void ReturnToPool(GameObject enemy, GameObject prefab)
     {
+        // TODO : A debugguer
         enemy.SetActive(false);
 
-        if (poolDictionary.TryGetValue(prefab, out Queue<GameObject> enemyQueue))
+        if (poolDictionary.TryGetValue(prefab, out var enemyQueue))
         {
             enemyQueue.Enqueue(enemy);
         }
         else
         {
-            Debug.Log("Tentative de retourer un ennemi à un pool inexistant !");
+            Debug.Log("Tentative de retourner un ennemi à un pool inexistant !");
         }
     }
 

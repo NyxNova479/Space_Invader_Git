@@ -33,5 +33,8 @@ public class EnemyScript : MonoBehaviour
         // spriteRenderer.sprite = (condition) ? (si vrai) : (si faux);
         spriteRenderer.sprite = isSprite01 ? sprite01 : sprite02;
 
-    } 
+    }
+
+
+
 }

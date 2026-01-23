@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -28,11 +29,14 @@ public class EnemyManager : MonoBehaviour
     private enum MoveState {MoveRight, MoveLeft}
     private MoveState currentState = MoveState.MoveRight;
 
-    public GameObject missilePrefab;
+    public GameObject[] missilePrefabs;
     public Transform missilePoint;
     public float missileInterval = 2.0f; // Intervalle minimum entre les tirs
+    public int missileType = 0;
 
     private int explosionDuration = 17;
+    [SerializeField]
+    private GameObject explosionPrefab;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -49,7 +53,7 @@ public class EnemyManager : MonoBehaviour
 
     }
 
-    private void SpawnEnemies()
+    public void SpawnEnemies()
     {
         var enemyTypes = EnemyPool.GetEnemyType();
 
@@ -86,7 +90,7 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator HandheldEnemyMovement()
     {
-        while (true)
+        while (remainingEnemies > 0)
         {
             
             
@@ -100,7 +104,10 @@ public class EnemyManager : MonoBehaviour
                 
                 for (int col = 0;  col < columns; col++)
                 {
-                    yield return new WaitUntil(() => !GameManager.Instance.IsPaused && !isExploding);
+                    if (GameManager.Instance.IsPaused || isExploding)
+                    {
+                        yield return new WaitUntil(() => !GameManager.Instance.IsPaused && !isExploding);
+                    }
 
                     if (enemies[row, col] != null && enemies[row, col].activeSelf)
                     {
@@ -119,11 +126,12 @@ public class EnemyManager : MonoBehaviour
                         if (ReachedBoundary(enemies[row, col])) boundaryReached = true;
 
                         yield return null;
+
                     }
 
                 }
 
-
+                
             }
 
             if (boundaryReached)
@@ -173,8 +181,9 @@ public class EnemyManager : MonoBehaviour
             if (shooters.Count > 0 && !GameManager.Instance.IsPaused && !isExploding)
             {
                 GameObject shooter = shooters[Random.Range(0, shooters.Count)];
-
-                FireMissile(shooter);
+                
+                FireMissile(shooter, missileType);
+                missileType = 1 + missileType % missilePrefabs.Length;
 
             }
         }
@@ -201,16 +210,26 @@ public class EnemyManager : MonoBehaviour
         return bottomEnemies;
     }
 
-    private void FireMissile(GameObject shooter)
+    private void FireMissile(GameObject shooter, int missileType)
     {
         // Rechercher le FirePoint dans les enfants de l'ennemi
         Transform firePoint = shooter.transform.Find("FirePoint");
 
         if (firePoint != null)
         {
-            
-            Instantiate(missilePrefab, firePoint.position, Quaternion.identity);
-
+            if (missileType == 0)
+            {
+                Instantiate(missilePrefabs[0], firePoint.position, Quaternion.identity);
+            }
+            if (missileType == 1)
+            {
+                Instantiate(missilePrefabs[1], firePoint.position, Quaternion.identity);
+            }
+            if (missileType == 2)
+            {
+                Instantiate(missilePrefabs[2], firePoint.position, Quaternion.identity);
+                missileType = 0;
+            }
 
 
         }
@@ -244,28 +263,34 @@ public class EnemyManager : MonoBehaviour
         EnemyPool.ReturnToPool(enemy, prefab);
 
         remainingEnemies--;
-
-        if(remainingEnemies <= 0)
+        
+        if (isExploding != true)
+        {
+            StartCoroutine(ExplosionCoroutine(enemy));
+        }
+        
+        if (remainingEnemies <= 0)
         {
             GameManager.Instance.CompletedLevel();
         }
 
-        if (!isExploding)
-        {
-            StartCoroutine(ExplosionCoroutine());
-        }
+
     }
 
-    IEnumerator ExplosionCoroutine()
+    IEnumerator ExplosionCoroutine(GameObject enemy)
     {
         isExploding = true;
-        int duration = 17;
+        int duration = explosionDuration;
 
-        while( duration > 0)
+        GameObject explosion = Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
+        while (duration > 0)
         {
+            
             duration--;
             yield return new WaitForEndOfFrame();
         }
+
+        explosion.SetActive(false);
 
         isExploding = false;
     }
