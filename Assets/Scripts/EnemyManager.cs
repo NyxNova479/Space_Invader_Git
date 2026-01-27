@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour
     private int remainingEnemies = 0;
 
     private bool isPaused = false;
-    private bool isExploding = false;
+    public bool isExploding = false;
 
     private enum MoveState {MoveRight, MoveLeft}
     private MoveState currentState = MoveState.MoveRight;

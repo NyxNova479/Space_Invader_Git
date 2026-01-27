@@ -16,6 +16,8 @@ public class MisssileManager : MonoBehaviour
 
     private InputSystem_Actions controls;
 
+    public EnemyManager enemyManager;
+
     private void Awake()
     {
         controls = new InputSystem_Actions();
@@ -45,10 +47,8 @@ public class MisssileManager : MonoBehaviour
 
     private void OnFire(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && !GameManager.Instance.IsPaused)
-        {
-
-            
+        if (ctx.performed && (!GameManager.Instance.IsPaused && !enemyManager.isExploding))
+        { 
 
             // Vérifier si un missile inactif est disponible
             for (int i = 0; i < poolSize; i++)

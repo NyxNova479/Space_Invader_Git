@@ -29,6 +29,12 @@ public class PlayerScript : MonoBehaviour
     [Range(0f, 1f)]
     public float boundaryPercentage = 0.8f;
 
+    public Sprite sprite01;
+    public Sprite sprite02;
+    private SpriteRenderer spriteRenderer;
+
+    private bool isSprite01;
+
     private enum PlayerState
     {
         Idle,
@@ -50,6 +56,17 @@ public class PlayerScript : MonoBehaviour
         controls = new InputSystem_Actions();
         controls.Player.Move.performed += ctx => HandheldMovePressed(ctx);
         controls.Player.Move.canceled += ctx => HandheldMoveRelease(ctx);
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = sprite01;
+            isSprite01 = true;
+        }
+        else
+        {
+            Debug.LogError("[PlayerScript] SpriteRenderer is not assigned");
+        }
 
         CalculateBoundary();
     }
@@ -176,6 +193,15 @@ public class PlayerScript : MonoBehaviour
             currentSpeed = 0f;
             decelTime = 0f;
         }
+    }
+
+    public void ExplosionAnimation()
+    {
+        isSprite01 = !isSprite01;
+
+        // spriteRenderer.sprite = (condition) ? (si vrai) : (si faux);
+        spriteRenderer.sprite = isSprite01 ? sprite01 : sprite02;
+
     }
 
     #region Calcul les boundaries & Draw les gizmos
