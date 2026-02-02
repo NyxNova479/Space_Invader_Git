@@ -29,7 +29,7 @@ public class EnemyMissile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerScript>().ExplosionAnimation();
+            collision.gameObject.GetComponent<PlayerScript>();
             collision.gameObject.SetActive(false);
 
             GameManager.Instance.LoseLife();

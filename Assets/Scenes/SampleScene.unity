@@ -242,6 +242,11 @@ MonoBehaviour:
   firePoint: {fileID: 398110680}
   poolSize: 1
   enemyManager: {fileID: 1021874222}
+--- !u!4 &292429354 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1321482338851535340, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
+  m_PrefabInstance: {fileID: 2923345586035766293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &340126822 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 302931411303542263, guid: 621afcda583fe3b4987edab5e319ec50, type: 3}
@@ -1979,8 +1984,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
+      propertyPath: sprite01
+      value: 
+      objectReference: {fileID: 21300000, guid: 8c240387635ee244281ffdd3777496bd, type: 3}
+    - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
+      propertyPath: sprite02
+      value: 
+      objectReference: {fileID: 21300000, guid: 8446d5bdff4b93345a869be0a6baadde, type: 3}
+    - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 292429354}
+    - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
       propertyPath: boundaryPercentage
       value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
+      propertyPath: explosionPrefabs.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1202914082646041521, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
       propertyPath: m_LocalPosition.y

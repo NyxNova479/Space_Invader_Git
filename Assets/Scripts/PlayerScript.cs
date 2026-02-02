@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -42,7 +44,14 @@ public class PlayerScript : MonoBehaviour
         Decelerating
     }
 
-    private PlayerState currentState = PlayerState.Idle; 
+    private PlayerState currentState = PlayerState.Idle;
+    private bool isExploding = false;
+    private int explosionDuration = 17;
+
+    [SerializeField]
+    private GameObject[] explosionPrefabs;
+    [SerializeField]
+    private Transform playerTransform;
     #endregion
 
 
@@ -58,15 +67,6 @@ public class PlayerScript : MonoBehaviour
         controls.Player.Move.canceled += ctx => HandheldMoveRelease(ctx);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.sprite = sprite01;
-            isSprite01 = true;
-        }
-        else
-        {
-            Debug.LogError("[PlayerScript] SpriteRenderer is not assigned");
-        }
 
         CalculateBoundary();
     }
@@ -195,13 +195,21 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void ExplosionAnimation()
+    public IEnumerator ExplosionAnimation()
     {
-        isSprite01 = !isSprite01;
-
-        // spriteRenderer.sprite = (condition) ? (si vrai) : (si faux);
-        spriteRenderer.sprite = isSprite01 ? sprite01 : sprite02;
-
+        isExploding = true;
+        int duration = explosionDuration;
+        
+        while (duration > 0)
+        {
+            GameObject explosion = Instantiate(explosionPrefabs[0], playerTransform.position, Quaternion.identity);
+            explosion.SetActive(false);
+            duration--;
+            yield return new WaitForEndOfFrame();
+            explosion = Instantiate(explosionPrefabs[1], playerTransform.position, Quaternion.identity);
+            explosion.SetActive(false);
+        }
+        isExploding = false;
     }
 
     #region Calcul les boundaries & Draw les gizmos
