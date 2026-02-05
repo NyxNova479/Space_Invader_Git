@@ -28,6 +28,7 @@ public class EnemyScript : MonoBehaviour
 
     public void ChangeSprite()
     {
+        if (sprite01 == null && sprite02 == null) return;
         isSprite01 = !isSprite01;
 
         // spriteRenderer.sprite = (condition) ? (si vrai) : (si faux);

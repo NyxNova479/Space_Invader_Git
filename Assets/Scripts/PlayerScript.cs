@@ -208,6 +208,7 @@ public class PlayerScript : MonoBehaviour
             yield return new WaitForEndOfFrame();
             explosion = Instantiate(explosionPrefabs[1], playerTransform.position, Quaternion.identity);
             explosion.SetActive(false);
+            yield return new WaitForEndOfFrame();
         }
         isExploding = false;
     }

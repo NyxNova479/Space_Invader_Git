@@ -242,6 +242,7 @@ MonoBehaviour:
   firePoint: {fileID: 398110680}
   poolSize: 1
   enemyManager: {fileID: 1021874222}
+  shootCount: 0
 --- !u!4 &292429354 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1321482338851535340, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
@@ -1163,6 +1164,7 @@ MonoBehaviour:
   _stepDistanceVertical: 1
   startPosition: {x: -6.5, y: 7.5}
   isExploding: 0
+  missileManager: {fileID: 0}
   missilePrefabs:
   - {fileID: 6286118513735919299, guid: cfa77deb83bee0f499daf35ba9ec074c, type: 3}
   - {fileID: 2867242863871816835, guid: b15561ea103e9bc4f80cb179cf682d0b, type: 3}

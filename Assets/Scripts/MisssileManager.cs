@@ -18,6 +18,8 @@ public class MisssileManager : MonoBehaviour
 
     public EnemyManager enemyManager;
 
+    public int shootCount = 0;
+
     private void Awake()
     {
         controls = new InputSystem_Actions();
@@ -64,6 +66,7 @@ public class MisssileManager : MonoBehaviour
 
 
                     currentMissileIndex = (index + 1) % poolSize;
+                    shootCount++;
                     return; // Sortir de la loop après avoir trouvé un missile
                 }
 

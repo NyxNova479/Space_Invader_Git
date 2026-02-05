@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static EnemyData;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class EnemyManager : MonoBehaviour
 
     private bool isPaused = false;
     public bool isExploding = false;
+
+    [SerializeField]
+    private MisssileManager missileManager;
+    private int shootLimit = 22;
 
     private enum MoveState {MoveRight, MoveLeft}
     private MoveState currentState = MoveState.MoveRight;
@@ -52,10 +57,25 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(EnemyShooting());
 
     }
+    private void Update()
+    {
+        if (missileManager.shootCount == shootLimit)
+        {
+            SpawnUFO();
+        }
+    }
+
+    private void SpawnUFO()
+    {
+        var enemyTypes = EnemyPool.GetEnemyType();
+
+        //GameObject enemy = EnemyPool.GetEnemy(enemyTypes.prefab);
+    }
 
     public void SpawnEnemies()
     {
         var enemyTypes = EnemyPool.GetEnemyType();
+
 
         for (int row = 0; row < rows; row++)
         {
@@ -84,6 +104,7 @@ public class EnemyManager : MonoBehaviour
                     remainingEnemies++;
                 }
             }
+
         }
 
     }
