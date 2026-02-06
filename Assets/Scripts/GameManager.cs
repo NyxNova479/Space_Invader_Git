@@ -155,7 +155,9 @@ public class GameManager : MonoBehaviour
     {
         // TODO : Implémenter le CompletedLevel
         enemyManager.SpawnEnemies();
-        enemyManager._stepDistance += 0.25f;
+        enemyManager._stepDistance += 0.05f;
+        enemyManager.missileInterval -= 0.05f;
+        enemyManager.shootLimit = 14;
         _lives = 2;
     }
 

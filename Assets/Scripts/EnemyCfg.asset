@@ -28,4 +28,4 @@ MonoBehaviour:
   - name: UFO
     points: 300
     color: {r: 0.11095864, g: 0, b: 0.6698113, a: 0}
-    prefab: {fileID: 267051165368221480, guid: 5a6a61a405baa234bb0eb87accbe1047, type: 3}
+    prefab: {fileID: 8419876728142910521, guid: 2187cedecccabf845a8fe8bff746f4f3, type: 3}

@@ -1156,6 +1156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 292429343}
+  enemyData: {fileID: 11400000, guid: 3bd0a82242b9ce145b21ec5b5c76e51f, type: 2}
   EnemyPool: {fileID: 1021874223}
   rows: 5
   columns: 11
@@ -1164,7 +1165,8 @@ MonoBehaviour:
   _stepDistanceVertical: 1
   startPosition: {x: -6.5, y: 7.5}
   isExploding: 0
-  missileManager: {fileID: 0}
+  missileManager: {fileID: 292429349}
+  shootLimit: 22
   missilePrefabs:
   - {fileID: 6286118513735919299, guid: cfa77deb83bee0f499daf35ba9ec074c, type: 3}
   - {fileID: 2867242863871816835, guid: b15561ea103e9bc4f80cb179cf682d0b, type: 3}
@@ -1999,12 +2001,20 @@ PrefabInstance:
       objectReference: {fileID: 292429354}
     - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
       propertyPath: boundaryPercentage
-      value: 0.55
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
       propertyPath: explosionPrefabs.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
+      propertyPath: 'explosionPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5580978562423120349, guid: 6375bb83b329c974cbf428bb506c2b1b, type: 3}
+    - target: {fileID: 908770829402464945, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
+      propertyPath: 'explosionPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 6253075178066799909, guid: 7db5225c5d1c47b4ba00895e71dc334f, type: 3}
     - target: {fileID: 1202914082646041521, guid: 929d897561d6e464d9d9a62c182ed01a, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.45

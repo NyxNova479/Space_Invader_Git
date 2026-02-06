@@ -10,6 +10,8 @@ public class EnemyManager : MonoBehaviour
     private GameObject player;
     private float playerBoundaryX;
 
+    [SerializeField] EnemyData enemyData;
+
 
     public EnemyPool EnemyPool;
     public int rows = 5; // Nb de rangées
@@ -18,7 +20,7 @@ public class EnemyManager : MonoBehaviour
     public float _stepDistance = 0.5f; // Distance de déplacement par frame
     public float _stepDistanceVertical = 1f; // Distance de déplacement vertical par frame
 
-    public Vector2 startPosition = new Vector2(-6.5f, 7.5f);
+    public Vector2 startPosition = new Vector2(-7.5f, 6f);
 
 
     private GameObject[,] enemies;
@@ -29,7 +31,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField]
     private MisssileManager missileManager;
-    private int shootLimit = 22;
+    public int shootLimit = 22;
 
     private enum MoveState {MoveRight, MoveLeft}
     private MoveState currentState = MoveState.MoveRight;
@@ -42,6 +44,8 @@ public class EnemyManager : MonoBehaviour
     private int explosionDuration = 17;
     [SerializeField]
     private GameObject explosionPrefab;
+
+    private bool spawnedUFO = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,22 +63,24 @@ public class EnemyManager : MonoBehaviour
     }
     private void Update()
     {
-        if (missileManager.shootCount == shootLimit)
-        {
-            SpawnUFO();
-        }
+
+
     }
 
     private void SpawnUFO()
     {
-        var enemyTypes = EnemyPool.GetEnemyType();
-
-        //GameObject enemy = EnemyPool.GetEnemy(enemyTypes.prefab);
+        GameObject enemy = enemyData.enemyTypes[3].prefab;
+        if (spawnedUFO)
+        {
+            Instantiate(enemy, new Vector2(-5.5f, 7.5f), Quaternion.identity);
+        }
+        enemy.SetActive(true);
     }
 
     public void SpawnEnemies()
     {
         var enemyTypes = EnemyPool.GetEnemyType();
+
 
 
         for (int row = 0; row < rows; row++)
@@ -107,14 +113,14 @@ public class EnemyManager : MonoBehaviour
 
         }
 
+
     }
 
     IEnumerator HandheldEnemyMovement()
     {
         while (remainingEnemies > 0)
         {
-            
-            
+
 
             bool boundaryReached = false;
 
@@ -154,6 +160,13 @@ public class EnemyManager : MonoBehaviour
 
                 
             }
+            if (missileManager.shootCount >= shootLimit)
+            {
+                Debug.Log("caca");
+                missileManager.shootCount = 0;
+                SpawnUFO();
+            }
+
 
             if (boundaryReached)
             {
@@ -199,7 +212,7 @@ public class EnemyManager : MonoBehaviour
 
             List<GameObject> shooters = GetBottomEnemies();
 
-            if (shooters.Count > 0 && !GameManager.Instance.IsPaused && !isExploding)
+            if (shooters.Count > 0 && !GameManager.Instance.IsPaused && !isExploding && enemyData.enemyTypes[3].prefab)
             {
                 GameObject shooter = shooters[Random.Range(0, shooters.Count)];
                 
