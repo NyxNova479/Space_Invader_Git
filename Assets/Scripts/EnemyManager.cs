@@ -70,7 +70,7 @@ public class EnemyManager : MonoBehaviour
     private void SpawnUFO()
     {
         GameObject enemy = enemyData.enemyTypes[3].prefab;
-        if (spawnedUFO)
+        if (!spawnedUFO)
         {
             Instantiate(enemy, new Vector2(-5.5f, 7.5f), Quaternion.identity);
         }
