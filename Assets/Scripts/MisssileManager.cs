@@ -71,7 +71,7 @@ public class MisssileManager : MonoBehaviour
                 }
 
             }
-
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.shoot);
             Debug.Log("⚠️ Aucun missile disponible !");
 
         } 

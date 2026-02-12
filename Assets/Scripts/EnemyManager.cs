@@ -90,6 +90,7 @@ public class EnemyManager : MonoBehaviour
             ufoInstance.transform.position = new Vector2(-5.5f, 7.5f);
             ufoInstance.SetActive(true);
         }
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ufo);
     }
 
     public void SpawnEnemies()
@@ -136,7 +137,7 @@ public class EnemyManager : MonoBehaviour
         while (remainingEnemies > 0)
         {
 
-
+            
             bool boundaryReached = false;
 
             // Boucle pour déplacer chaque ennemie l'un après l'autre en commençant par la dernière ligne
