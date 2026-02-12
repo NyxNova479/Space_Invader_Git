@@ -46,6 +46,7 @@ public class EnemyManager : MonoBehaviour
     private GameObject explosionPrefab;
 
     private bool spawnedUFO = false;
+    private GameObject ufoInstance;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -69,12 +70,26 @@ public class EnemyManager : MonoBehaviour
 
     private void SpawnUFO()
     {
+
         GameObject enemy = enemyData.enemyTypes[3].prefab;
-        if (!spawnedUFO)
+        GameObject ufoPrefab = enemyData.enemyTypes[3].prefab;
+        //if (!spawnedUFO)
+
+
+
+        if (ufoInstance == null)
+
         {
-            Instantiate(enemy, new Vector2(-5.5f, 7.5f), Quaternion.identity);
+            // Première apparition
+            ufoInstance = Instantiate(ufoPrefab,new Vector2(-5.5f, 7.5f),Quaternion.identity);
+            spawnedUFO = false;
         }
-        enemy.SetActive(true);
+        else
+        {
+            // Réapparition
+            ufoInstance.transform.position = new Vector2(-5.5f, 7.5f);
+            ufoInstance.SetActive(true);
+        }
     }
 
     public void SpawnEnemies()
