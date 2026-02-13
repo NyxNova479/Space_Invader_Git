@@ -1,5 +1,4 @@
 using TMPro;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,9 +30,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _livesText;
     [SerializeField]
-    private ImageEditor _livesImage;
+    private GameObject[] _livesImage;
 
     public EnemyManager enemyManager;
+    [SerializeField]
+    private TextMeshProUGUI gameOverUI;
 
     private void Awake()
     {
@@ -137,17 +138,25 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            
+
             playerPrefab.transform.position = new Vector2(0,-9.24f);
             playerPrefab.SetActive(true);
             _livesText.text = (_lives + 1).ToString();
             
         }
-        
+        if (_livesImage == null) return;
+        else if(_lives == 2)
+        {
+            _livesImage[1].SetActive(false);
+        }
+        else _livesImage[0].SetActive(false);
     }
 
     public void GameOver()
     {
         // TODO : Implémenter le game over
+        gameOverUI.text = "Game Over";
         SaveScore();
     }
 

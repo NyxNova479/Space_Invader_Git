@@ -10,6 +10,9 @@ public class MisssileManager : MonoBehaviour
     [SerializeField]
     private Transform firePoint; // Position d'où le missile spawn
 
+    [SerializeField] AudioClip shootSound;
+    private AudioSource audioSource;
+
     public int poolSize = 1;
     private GameObject[] missilePool;
     private int currentMissileIndex = 0; // Permet de commencer la recherche à cet index
@@ -29,6 +32,7 @@ public class MisssileManager : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();  
         missilePool = new GameObject[poolSize]; 
 
         for (int i = 0; i < poolSize; i++)
@@ -50,8 +54,8 @@ public class MisssileManager : MonoBehaviour
     private void OnFire(InputAction.CallbackContext ctx)
     {
         if (ctx.performed && (!GameManager.Instance.IsPaused && !enemyManager.isExploding))
-        { 
-
+        {
+            audioSource.PlayOneShot(shootSound, 0.5f);
             // Vérifier si un missile inactif est disponible
             for (int i = 0; i < poolSize; i++)
             {
@@ -71,7 +75,7 @@ public class MisssileManager : MonoBehaviour
                 }
 
             }
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.shoot);
+
             Debug.Log("⚠️ Aucun missile disponible !");
 
         } 

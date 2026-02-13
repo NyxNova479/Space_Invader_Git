@@ -31,7 +31,7 @@ public class EnemyScript : MonoBehaviour
         if (sprite01 == null && sprite02 == null) return;
         isSprite01 = !isSprite01;
 
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.invaderMove);
+
         // spriteRenderer.sprite = (condition) ? (si vrai) : (si faux);
         spriteRenderer.sprite = isSprite01 ? sprite01 : sprite02;
 

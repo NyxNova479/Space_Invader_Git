@@ -31,12 +31,15 @@ public class PlayerScript : MonoBehaviour
     [Range(0f, 1f)]
     public float boundaryPercentage = 0.8f;
 
-    public Sprite sprite01;
-    public Sprite sprite02;
+    [SerializeField] private Sprite[] explosionSprites;
+    [SerializeField] private float explosionFrameTime = 0.1f;
     private SpriteRenderer spriteRenderer;
+    private Sprite baseSprite;
 
-    private bool isSprite01;
-
+    [SerializeField] private AudioClip explosionSound;
+    private AudioSource audioSource;
+    private bool isExploding = false;
+    private int explosionDuration = 10;
     private enum PlayerState
     {
         Idle,
@@ -45,11 +48,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     private PlayerState currentState = PlayerState.Idle;
-    private bool isExploding = false;
-    private int explosionDuration = 17;
 
-    [SerializeField]
-    private GameObject[] explosionPrefabs;
     [SerializeField]
     private Transform playerTransform;
     #endregion
@@ -60,6 +59,7 @@ public class PlayerScript : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         // Initialisation des inputs
         controls = new InputSystem_Actions();
@@ -67,6 +67,8 @@ public class PlayerScript : MonoBehaviour
         controls.Player.Move.canceled += ctx => HandheldMoveRelease(ctx);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+        baseSprite = spriteRenderer.sprite;
+;
 
         CalculateBoundary();
     }
@@ -195,22 +197,31 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public IEnumerator ExplosionAnimation()
+    public void Explode()
+    {
+        if (isExploding) return;
+
+        StartCoroutine(ExplosionCoroutine());
+    }
+
+    private IEnumerator ExplosionCoroutine()
     {
         isExploding = true;
-        int duration = explosionDuration;
-        
-        while (duration > 0)
+        audioSource.PlayOneShot(explosionSound,0.5f);
+        while (explosionDuration > 0)
         {
-            GameObject explosion = Instantiate(explosionPrefabs[0], playerTransform.position, Quaternion.identity);
-            explosion.SetActive(false);
-            duration--;
-            yield return new WaitForEndOfFrame();
-            explosion = Instantiate(explosionPrefabs[1], playerTransform.position, Quaternion.identity);
-            explosion.SetActive(false);
-            yield return new WaitForEndOfFrame();
+            foreach (Sprite sprite in explosionSprites)
+            {
+                spriteRenderer.sprite = sprite;
+                yield return new WaitForSeconds(explosionFrameTime);
+            }
+            explosionDuration--;
         }
+        spriteRenderer.sprite = baseSprite;
+
         isExploding = false;
+
+
     }
 
     #region Calcul les boundaries & Draw les gizmos

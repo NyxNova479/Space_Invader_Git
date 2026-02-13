@@ -29,8 +29,8 @@ public class EnemyMissile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerScript>();
-            collision.gameObject.SetActive(false);
+            collision.gameObject.GetComponent<PlayerScript>().Explode();
+            
 
             GameManager.Instance.LoseLife();
             ResetMissile();

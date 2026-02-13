@@ -12,6 +12,9 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] EnemyData enemyData;
 
+    [SerializeField] AudioClip ufoSound;
+    [SerializeField] AudioClip explosionSound;
+    private AudioSource audioSource;
 
     public EnemyPool EnemyPool;
     public int rows = 5; // Nb de rangées
@@ -51,7 +54,7 @@ public class EnemyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
         playerBoundaryX = player.GetComponent<PlayerScript>().boundary;
         enemies = new GameObject[rows, columns];
 
@@ -90,7 +93,7 @@ public class EnemyManager : MonoBehaviour
             ufoInstance.transform.position = new Vector2(-5.5f, 7.5f);
             ufoInstance.SetActive(true);
         }
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.ufo);
+        audioSource.PlayOneShot(ufoSound, 0.7f);
     }
 
     public void SpawnEnemies()
@@ -307,7 +310,7 @@ public class EnemyManager : MonoBehaviour
 
 
         }
-
+        audioSource.PlayOneShot(explosionSound, 0.7f);
         GameManager.Instance.AddScore(enemy.GetComponent<EnemyScript>().ScoreData);
 
         EnemyPool.ReturnToPool(enemy, prefab);
